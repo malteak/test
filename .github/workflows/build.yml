@@ -39,7 +39,16 @@ jobs:
     - name: Configure Godot
       run: |
         mkdir -p ~/.config/godot
-        printf '[gd_resource type="EditorSettings" format=2]\n[resource]\nexport/android/android_sdk_path = "/usr/local/lib/android/sdk"\nexport/android/debug_keystore = "/home/runner/.android/debug.keystore"\nexport/android/debug_keystore_user = "androiddebugkey"\nexport/android/debug_keystore_pass = "android"\n' > ~/.config/godot/editor_settings-3.tres
+        cat > ~/.config/godot/editor_settings-3.tres << 'SETTINGS'
+[gd_resource type="EditorSettings" format=2]
+[resource]
+export/android/android_sdk_path = "/usr/local/lib/android/sdk"
+export/android/debug_keystore = "/home/runner/.android/debug.keystore"
+export/android/debug_keystore_user = "androiddebugkey"
+export/android/debug_keystore_pass = "android"
+export/android/shutdown_adb_on_exit = true
+SETTINGS
+        godot --editor --quit || true
     - name: Build APK
       run: |
         mkdir -p build
